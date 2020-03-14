@@ -2,20 +2,22 @@ var winCountEl = document.getElementById("win-count");
 var lossCountEl = document.getElementById("loss-count");
 var guessesRemainingEl = document.getElementById("guesses-remaining");
 var guessTrackerEl = document.getElementById("guess-tracker");
+var endGameStatusEl = document.getElementById("end-game-status");
+var pressAnyKeyToContinueEl = document.getElementById("press-any-key-to-continue")
 var guessesRemaining = 9;
 var winTrack = 0;
 var lossTrack = 0;
-var guessTracker = ""
+var guessTracker = "";
 var correctLetter = Math.floor(Math.random() * 26);
 
 function displayWins() {
   winCountEl.textContent = winTrack;
 }
 function displayLosses() {
-  lossCountEl.textContent = lossTrack
+  lossCountEl.textContent = lossTrack;
 }
 function displayGuessesRemaining() {
-  guessesRemainingEl.textContent = guessesRemaining
+  guessesRemainingEl.textContent = guessesRemaining;
 }
 
 displayWins();
@@ -24,6 +26,10 @@ displayGuessesRemaining();
 
 //Every time a key is pressed
 document.onkeyup = function(event) {
+  endGameStatus = null
+  endGameStatusEl.textContent = endGameStatus;
+
+
   var keyInput = event.key;
   var letterArray = [
     "a",
@@ -61,14 +67,17 @@ document.onkeyup = function(event) {
     displayWins();
     guessesRemaining = 9;
     guessTracker = "";
-    correctLetter = Math.floor(Math.random() * 26)
+    guessTrackerEl.textContent = guessTracker;
+    endGameStatus = "How did you know it was " + letterArray[correctLetter] + "?!"
+    endGameStatusEl.textContent = endGameStatus;
+    correctLetter = Math.floor(Math.random() * 26);
   }
   //wrong guess
   else {
     guessesRemaining = guessesRemaining - 1;
-    displayGuessesRemaining()
+    displayGuessesRemaining();
     guessTracker = guessTracker + keyInput + ", ";
-    guessTrackerEl.textContent = guessTracker
+    guessTrackerEl.textContent = guessTracker;
   }
 
   //Game loss
@@ -77,6 +86,9 @@ document.onkeyup = function(event) {
     displayLosses();
     guessesRemaining = 9;
     guessTracker = "";
+    guessTrackerEl.textContent = guessTracker;
+    endGameStatus = "Should have guessed " + letterArray[correctLetter] + "...";
+    endGameStatusEl.textContent = endGameStatus;
     correctLetter = Math.floor(Math.random() * 26);
   }
 };
